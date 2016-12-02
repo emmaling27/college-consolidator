@@ -90,7 +90,7 @@ def update():
     if (sw_lng <= ne_lng):
 
         # doesn't cross the antimeridian
-        rows = db.execute("""SELECT INSTNM, LATITUDE, LONGITUDE FROM college_data
+        rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE FROM college_data
             WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE AND LONGITUDE <= :ne_lng) ORDER BY RANDOM() LIMIT 50""",
             sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
             # GROUP BY country_code, place_name, admin_code1
@@ -99,7 +99,7 @@ def update():
     else:
 
         # crosses the antimeridian
-        rows = db.execute("""SELECT INSTNM, LATITUDE, LONGITUDE FROM college_data
+        rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE FROM college_data
             WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE OR LONGITUDE <= :ne_lng) ORDER BY RANDOM() LIMIT 50""",
             sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
             # GROUP BY country_code, place_name, admin_code1
