@@ -141,7 +141,7 @@ function configure()
 
         // set map's center
         map.setCenter({lat: parseFloat(suggestion.latitude), lng: parseFloat(suggestion.longitude)});
-        map.setZoom(11);
+        map.setZoom(15);
         
         // update UI
         update();
