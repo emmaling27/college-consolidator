@@ -89,18 +89,18 @@ def update():
     # find 10 cities within view, pseudorandomly chosen if more within view
     if (sw_lng <= ne_lng):
 
-        # # doesn't cross the antimeridian
-        # rows = db.execute("""SELECT * FROM places
-        #     WHERE :sw_lat <= latitude AND latitude <= :ne_lat AND (:sw_lng <= longitude AND longitude <= :ne_lng)""",
-        #     sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
-        #     # GROUP BY country_code, place_name, admin_code1
-        #     # ORDER BY RANDOM()
-        #     # LIMIT 10
-    # else:
+        # doesn't cross the antimeridian
+        rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE FROM college_data
+            WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE AND LONGITUDE <= :ne_lng) ORDER BY RANDOM() LIMIT 50""",
+            sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
+            # GROUP BY country_code, place_name, admin_code1
+            # ORDER BY RANDOM()
+            # LIMIT 10
+    else:
 
         # crosses the antimeridian
-        rows = db.execute("""SELECT * FROM college_data
-            WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE OR LONGITUDE <= :ne_lng) LIMIT 10""",
+        rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE FROM college_data
+            WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE OR LONGITUDE <= :ne_lng) ORDER BY RANDOM() LIMIT 50""",
             sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
             # GROUP BY country_code, place_name, admin_code1
             # ORDER BY RANDOM()
@@ -156,51 +156,3 @@ def logout():
 
     # redirect user to login form
     return redirect(url_for("login"))
-
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    """Register user."""
-    # forget any user_id
-    session.clear()
-
-    # if user reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-
-        # ensure username was submitted
-        if not request.form.get("username"):
-            return apology("must provide username")
-
-        # ensure password was submitted
-        elif not request.form.get("password"):
-            return apology("must provide password")
-
-        # query database for username
-        username = request.form.get("username")
-        rows = db.execute("SELECT * FROM users WHERE username = :username", username=username)
-
-        # ensure username is not already taken
-        if len(rows) != 0:
-            return apology("username already taken")
-        
-        # ensure passwords match
-        if not request.form.get("password") == request.form.get("password_again"):
-            return apology("passwords don't match")
-
-        # encrypt password
-        hash = pwd_context.encrypt(request.form.get("password"))
-        
-        # add user to database
-        db.execute("INSERT INTO users (username, hash) VALUES(:username, :hash)", username=username, hash=hash)
-
-        # remember which user has logged in
-        user_id = db.execute("SELECT id FROM users WHERE username = :username", username=username)
-        session["user_id"] = user_id[0]["id"]
-
-        # redirect user to home page
-        return redirect(url_for("index"))
-
-    # else if user reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("register.html")
-

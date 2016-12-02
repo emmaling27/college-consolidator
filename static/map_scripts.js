@@ -1,17 +1,3 @@
-// function initMap() {
-//     var uluru = {lat: -25.363, lng: 131.044};
-//     var map = new google.maps.Map(document.getElementById('map'), {
-//         zoom: 4,
-//         center: uluru
-//     });
-//     var marker = new google.maps.Marker({
-//         position: uluru,
-//         map: map
-//     });
-    
-//     google.maps.event.addListenerOnce(map, "idle", configure);
-
-// }
 
 // Google Map
 var map;
@@ -74,47 +60,42 @@ $(function() {
 });
 
 /**
-* Adds marker for place to map.
+* Adds marker for college to map.
 */
-function addMarker(place)
+function addMarker(college)
 {
-    // get latitude and longitude of place
-    var myLatlng = new google.maps.LatLng(place["latitude"], place["longitude"]);
+    // get latitude and longitude of college
+    var myLatlng = new google.maps.LatLng(college["LATITUDE"], college["LONGITUDE"]);
 
     // make markers
     var marker = new google.maps.Marker({
         position: myLatlng,
-    })
+        // label: college["INSTNM"]
+    });
     
     // add markers to list markers
     markers.push(marker);
     
-//     // listen for click event
-//     google.maps.event.addListener(marker, 'click', function() {
-//         // get output of articles function in application.py with input place
-//         $.getJSON(Flask.url_for("articles"), {geo:place["postal_code"]})
-//         .done(function(data, textStatus, jqXHR) {
-
-//             // make an html string for each article and link
-//             var out = "<ul>";
-//             for (article in data) {
-//                 out = out + "<li>" + "<a href=" + data[article].link + ">" + data[article].title + "</a></li>";
-//             }
-//             out = out + "</ul>";
-            
-//             // make window display html articles (hyperlinked)
-//             showInfo(marker, out);
-//         })
-//         .fail(function(jqXHR, textStatus, errorThrown) {
-
-//             // log error to browser's console
-//             console.log(errorThrown.toString());
-//         });
-//     })
+    // var info = "<div><a href=" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>";
     
+    // marker.addListener("click", function(){
+    //     showInfo(marker, info)
+    //     console.log("hello world")
+    // });
+    // listen for click event
+    google.maps.event.addListener(marker, 'click', function() {
+
+        // make an html string for each article and link
+        var info = "<div><a href=" + "http://" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>";
+        console.log(info);
+        // var info = "hello, world!"
+        // make window display html articles (hyperlinked)
+        showInfo(marker, info);
+    });
+
     // render map with markers
     marker.setMap(map);
-}
+};
 
 /**
  * Configures application.
@@ -225,32 +206,32 @@ function search(query, syncResults, asyncResults)
     });
 }
 
-// /**
-// * Shows info window at marker with content.
-// */
-// function showInfo(marker, content)
-// {
-//     // start div
-//     var div = "<div id='info'>";
-//     if (typeof(content) == "undefined")
-//     {
-//         // http://www.ajaxload.info/
-//         div += "<img alt='loading' src='/static/ajax-loader.gif'/>";
-//     }
-//     else
-//     {
-//         div += content;
-//     }
+/**
+* Shows info window at marker with content.
+*/
+function showInfo(marker, content)
+{
+    // start div
+    var div = "<div id='info'>";
+    if (typeof(content) == "undefined")
+    {
+        // http://www.ajaxload.info/
+        div += "<img alt='loading' src='/static/ajax-loader.gif'/>";
+    }
+    else
+    {
+        div += content;
+    }
 
-//     // end div
-//     div += "</div>";
+    // end div
+    div += "</div>";
 
-//     // set info window's content
-//     info.setContent(div);
+    // set info window's content
+    info.setContent(div);
 
 //     // open info window (if not already open)
-//     info.open(map, marker);
-// }
+    info.open(map, marker);
+}
 
 /**
 * Updates UI's markers.
