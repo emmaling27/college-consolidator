@@ -79,7 +79,7 @@ $(function() {
 function addMarker(place)
 {
     // get latitude and longitude of place
-    var myLatlng = new google.maps.LatLng(place["latitude"], place["longitude"]);
+    var myLatlng = new google.maps.LatLng(place["LATITUDE"], place["LONGITUDE"]);
 
     // make markers
     var marker = new google.maps.Marker({

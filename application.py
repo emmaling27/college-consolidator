@@ -89,18 +89,18 @@ def update():
     # find 10 cities within view, pseudorandomly chosen if more within view
     if (sw_lng <= ne_lng):
 
-        # # doesn't cross the antimeridian
-        # rows = db.execute("""SELECT * FROM places
-        #     WHERE :sw_lat <= latitude AND latitude <= :ne_lat AND (:sw_lng <= longitude AND longitude <= :ne_lng)""",
-        #     sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
-        #     # GROUP BY country_code, place_name, admin_code1
-        #     # ORDER BY RANDOM()
-        #     # LIMIT 10
-    # else:
+        # doesn't cross the antimeridian
+        rows = db.execute("""SELECT INSTNM, LATITUDE, LONGITUDE FROM college_data
+            WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE AND LONGITUDE <= :ne_lng) ORDER BY RANDOM() LIMIT 50""",
+            sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
+            # GROUP BY country_code, place_name, admin_code1
+            # ORDER BY RANDOM()
+            # LIMIT 10
+    else:
 
         # crosses the antimeridian
-        rows = db.execute("""SELECT * FROM college_data
-            WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE OR LONGITUDE <= :ne_lng) LIMIT 10""",
+        rows = db.execute("""SELECT INSTNM, LATITUDE, LONGITUDE FROM college_data
+            WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE OR LONGITUDE <= :ne_lng) ORDER BY RANDOM() LIMIT 50""",
             sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
             # GROUP BY country_code, place_name, admin_code1
             # ORDER BY RANDOM()
@@ -203,4 +203,3 @@ def register():
     # else if user reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("register.html")
-
