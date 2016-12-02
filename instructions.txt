@@ -1,0 +1,6 @@
+how to run:
+In a new terminal window, type:
+    flask run
+In a new terminal window, type:
+    phpliteadmin pressurecooker.db
+Then click on CS50 IDE and click on web server to run.
