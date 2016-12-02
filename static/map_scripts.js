@@ -76,7 +76,7 @@ function addMarker(college)
     // add markers to list markers
     markers.push(marker);
     
-    var info = "<div><a href=" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>";
+    // var info = "<div><a href=" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>";
     
     // marker.addListener("click", function(){
     //     showInfo(marker, info)
@@ -86,7 +86,8 @@ function addMarker(college)
     google.maps.event.addListener(marker, 'click', function() {
 
         // make an html string for each article and link
-        var info = "<div><a href=" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>";
+        var info = "<div><a href=" + "http://" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>";
+        console.log(info);
         // var info = "hello, world!"
         // make window display html articles (hyperlinked)
         showInfo(marker, info);
