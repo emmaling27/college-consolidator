@@ -76,5 +76,10 @@ h3 {
 
 .btn  {
     margin-top: 30px;
-    
+}
+
+/* stylize google sign in button */
+.g-signin2 {
+    padding-top:10px;
+
 }

@@ -64,6 +64,11 @@ def search():
     # return json with locations to suggest
     return jsonify(locations)
 
+@app.route("/signin")
+def signin(profile):
+    data = json.loads(profile)
+    
+
 @app.route("/update")
 def update():
     """Find up to 10 places within view."""
@@ -112,47 +117,47 @@ def update():
 
 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    """Log user in."""
+# @app.route("/login", methods=["GET", "POST"])
+# def login():
+#     """Log user in."""
 
-    # forget any user_id
-    session.clear()
+#     # forget any user_id
+#     session.clear()
 
-    # if user reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
+#     # if user reached route via POST (as by submitting a form via POST)
+#     if request.method == "POST":
 
-        # ensure username was submitted
-        if not request.form.get("username"):
-            return apology("must provide username")
+#         # ensure username was submitted
+#         if not request.form.get("username"):
+#             return apology("must provide username")
 
-        # ensure password was submitted
-        elif not request.form.get("password"):
-            return apology("must provide password")
+#         # ensure password was submitted
+#         elif not request.form.get("password"):
+#             return apology("must provide password")
 
-        # query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
+#         # query database for username
+#         rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
 
-        # ensure username exists and password is correct
-        if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
-            return apology("invalid username and/or password")
+#         # ensure username exists and password is correct
+#         if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
+#             return apology("invalid username and/or password")
 
-        # remember which user has logged in
-        session["user_id"] = rows[0]["id"]
+#         # remember which user has logged in
+#         session["user_id"] = rows[0]["id"]
 
-        # redirect user to home page
-        return redirect(url_for("index"))
+#         # redirect user to home page
+#         return redirect(url_for("index"))
 
-    # else if user reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("login.html")
+#     # else if user reached route via GET (as by clicking a link or via redirect)
+#     else:
+#         return render_template("login.html")
 
-@app.route("/logout")
-def logout():
-    """Log user out."""
+# @app.route("/logout")
+# def logout():
+#     """Log user out."""
 
-    # forget any user_id
-    session.clear()
+#     # forget any user_id
+#     session.clear()
 
-    # redirect user to login form
-    return redirect(url_for("login"))
+#     # redirect user to login form
+#     return redirect(url_for("login"))
