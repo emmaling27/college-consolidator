@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Colleges
+{% endblock %}
+
+{% block main %}
+    <table>
+        <tr>
+            <th>College</th>
+            <th>Admission Rate</th>
+            <th>SAT Range</th>
+            <th>ACT Range</th>
+            <th>Location</th>
+        </tr>
+        {% for college in colleges -%}
+        <tr>
+            <th>{{ college.name }}</th>
+            <th>{{ college.adrate }}</th>
+            <th>{{ college.ACT }}</th>
+            <th>{{ college.SAT }}</th>
+            <th>{{ college.location }}</th>
+        </tr>
+        {%- endfor %}
+    </table>
+{% endblock %}

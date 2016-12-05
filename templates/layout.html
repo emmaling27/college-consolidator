@@ -57,6 +57,7 @@
                             </ul>
                         {% if session.user_id %}
                             <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{{ url_for('mycolleges') }}">My Colleges</a></li>
                                 <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                             </ul>
                         {% else %}

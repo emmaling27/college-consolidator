@@ -204,3 +204,8 @@ def logout():
 
     # redirect user to login form
     return redirect(url_for("login"))
+    
+@app.route("/mycolleges")
+def mycolleges():
+    """Display table of saved colleges."""
+    return render_template("mycolleges.html")

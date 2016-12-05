@@ -50,6 +50,11 @@ th, td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
 }
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
 h3 {
     text-align: center;
 }
