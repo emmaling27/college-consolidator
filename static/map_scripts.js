@@ -90,7 +90,7 @@ function addMarker(college)
         console.log(info);
         // var info = "hello, world!"
         // make window display html articles (hyperlinked)
-        showInfo(marker, info);
+        showInfo(marker, info, college);
     });
 
     // render map with markers
@@ -209,7 +209,7 @@ function search(query, syncResults, asyncResults)
 /**
 * Shows info window at marker with content.
 */
-function showInfo(marker, content)
+function showInfo(marker, content, college)
 {
     // start div
     var div = "<div id='info'>";
@@ -225,7 +225,48 @@ function showInfo(marker, content)
 
     // end div
     div += "</div>";
-
+    div += "<button type='button' class='add'> + Add to my colleges</button>"
+    $(document).ready(function(){
+        $(".add").click(function(){
+            // Using the core $.ajax() method
+$.ajax({
+ 
+    // The URL for the request
+    url: Flask.url_for("mycolleges"),
+ 
+    // The data to send (will be converted to a query string)
+    data: {
+        college: college
+    },
+    // college,
+ 
+    // Whether this is a POST or GET request
+    type: "POST",
+ 
+    // // The type of data we expect back
+    // dataType : "json",
+})
+  // Code to run if the request succeeds (is done);
+  // The response is passed to the function
+  .done(function( json ) {
+     $( "<h1>" ).text( json.title ).appendTo( "body" );
+     $( "<div class=\"content\">").html( json.html ).appendTo( "body" );
+  })
+  // Code to run if the request fails; the raw request and
+  // status codes are passed to the function
+  .fail(function( xhr, status, errorThrown ) {
+    alert( "Sorry, there was a problem!" );
+    console.log( "Error: " + errorThrown );
+    console.log( "Status: " + status );
+    console.dir( xhr );
+  })
+  // Code to run regardless of success or failure;
+  .always(function( xhr, status ) {
+    alert( "The request is complete!" );
+  });
+            alert("The add button was clicked.");
+        });
+    });
     // set info window's content
     info.setContent(div);
 
@@ -268,18 +309,11 @@ function update()
     });
 };
 
-/* Set the width of the side navigation to 250px */
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-}
-
-/* Set the width of the side navigation to 0 */
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-}
-
 $('#public').click(function(){
     if ($('#public').attr('checked')) {
         console.log("public checked!")
+    }
+    else {
+        console.log("public unchecked!")
     }
 }) 

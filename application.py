@@ -208,4 +208,6 @@ def logout():
 @app.route("/mycolleges")
 def mycolleges():
     """Display table of saved colleges."""
+    
+    
     return render_template("mycolleges.html")
