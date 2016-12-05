@@ -1,24 +1,24 @@
 {% extends "layout.html" %}
 
-{% block head %}
-  <head>
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="426775631492-nauqognl1pgao9gnd6l3hhn53u4lv516.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-  </head>
-{% endblock %}
+
 
 {% block title %}
     Log In
 {% endblock %}
 
 {% block main %}
-    <html lang="en">
-
-  <body>
-    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-
-  </body>
-</html>
+    <form action="{{ url_for('login') }}" method="post">
+        <fieldset>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="password" placeholder="Password" type="password"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">Log In</button>
+            </div>            
+        </fieldset>
+    </form>
 
 {% endblock %}

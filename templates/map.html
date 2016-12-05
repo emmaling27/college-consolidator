@@ -1,3 +1,4 @@
+
 {% extends "layout.html" %}
 
 {% block title %} Map {% endblock %}
@@ -31,5 +32,17 @@
           <input class="form-control" id="q" placeholder="City, State, Postal Code" type="text"/>
         </div>
       </form>
-    <div id="map-canvas"></div>
+    <label class="checkbox-inline" id="public"><input type="checkbox" value="">Public</label>
+    <label class="checkbox-inline" id="private"><input type="checkbox" value="">Private</label>
+
+      <div id="map-canvas"></div>
+      <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">Scores</a>
+        <a href="#">Locale</a>
+        <a href="#">Size</a>
+        <a href="#">Type</a>
+      </div>
+      <span onclick="openNav()">open</span>
+
 {% endblock %}
