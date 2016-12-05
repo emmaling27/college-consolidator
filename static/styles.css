@@ -82,5 +82,18 @@ h3 {
     padding-top:10px;
 }
 .btn  {
-    margin-top: 30px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.well {
+    margin-top: 100px;
+}
+
+.jumbotron {
+    /*photo taken from this url: http://cambridgerealestate.tumblr.com/post/4103917381/chimneyscape-high-above-lowell-house-at-harvard*/
+    background-image: url(http://31.media.tumblr.com/tumblr_limooripmE1qiovnwo1_1280.jpg);
+    background-position: 0% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
