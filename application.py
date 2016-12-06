@@ -209,5 +209,7 @@ def logout():
 def mycolleges():
     """Display table of saved colleges."""
     
-    
-    return render_template("mycolleges.html")
+    if request.method == "POST":
+        return render_template("mycolleges.html")
+    else:
+        return apology("poo")

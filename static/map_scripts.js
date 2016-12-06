@@ -56,6 +56,29 @@ $(function() {
 
     // configure UI once Google Map is idle (i.e., loaded)
     google.maps.event.addListenerOnce(map, "idle", configure);
+    
+    $('#public').click(function(){
+        console.log($('#public').prop('checked'));
+        if ($('#public').prop('checked')) {
+            console.log("public checked!")
+        }
+        else {
+            console.log("public unchecked!")
+        }
+    }) 
+    $('#private').click(function(){
+        if ($('#public').prop('checked')) {
+            console.log("private checked!")
+        }
+        else {
+            console.log("private unchecked!")
+        }
+    }) 
+    
+    // // event handler for add college buttons
+    // $(".add").click(function(){
+    
+    // })
 
 });
 
@@ -225,46 +248,23 @@ function showInfo(marker, content, college)
 
     // end div
     div += "</div>";
+    
+    // make add to my colleges button
     div += "<button type='button' class='add'> + Add to my colleges</button>"
     $(document).ready(function(){
         $(".add").click(function(){
-            // Using the core $.ajax() method
-$.ajax({
- 
-    // The URL for the request
-    url: Flask.url_for("mycolleges"),
- 
-    // The data to send (will be converted to a query string)
-    data: {
-        college: college
-    },
-    // college,
- 
-    // Whether this is a POST or GET request
-    type: "POST",
- 
-    // // The type of data we expect back
-    // dataType : "json",
-})
-  // Code to run if the request succeeds (is done);
-  // The response is passed to the function
-  .done(function( json ) {
-     $( "<h1>" ).text( json.title ).appendTo( "body" );
-     $( "<div class=\"content\">").html( json.html ).appendTo( "body" );
-  })
-  // Code to run if the request fails; the raw request and
-  // status codes are passed to the function
-  .fail(function( xhr, status, errorThrown ) {
-    alert( "Sorry, there was a problem!" );
-    console.log( "Error: " + errorThrown );
-    console.log( "Status: " + status );
-    console.dir( xhr );
-  })
-  // Code to run regardless of success or failure;
-  .always(function( xhr, status ) {
-    alert( "The request is complete!" );
-  });
-            alert("The add button was clicked.");
+            console.log(college)
+            $.ajax(Flask.url_for("mycolleges"), college)
+            .done(function(textStatus, jqXHR) {
+        
+            // change button
+            console.log("success!!")
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+        
+                // log error to browser's console
+                console.log(errorThrown.toString());
+            });
         });
     });
     // set info window's content
@@ -308,12 +308,3 @@ function update()
         console.log(errorThrown.toString());
     });
 };
-
-$('#public').click(function(){
-    if ($('#public').attr('checked')) {
-        console.log("public checked!")
-    }
-    else {
-        console.log("public unchecked!")
-    }
-}) 
