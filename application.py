@@ -104,6 +104,8 @@ def sign_up():
         user_id = db.execute("SELECT id FROM users WHERE username = :username", username=username)
         session["user_id"] = user_id[0]["id"]
 
+        # create table for user's colleges
+        db.execute("CREATE TABLE :username ('name' TEXT,'adrate' NUMERIC, 'SAT_25' INTEGER, 'SAT_75' INTEGER, 'ACT_25' INTEGER, 'ACT_75' INTEGER, 'location' TEXT)", username=username)
         # redirect user to home page
         return redirect(url_for("index"))
 
@@ -209,7 +211,5 @@ def logout():
 def mycolleges():
     """Display table of saved colleges."""
     
-    if request.method == "POST":
-        return render_template("mycolleges.html")
-    else:
-        return apology("poo")
+    
+    return render_template("mycolleges.html")
