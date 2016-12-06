@@ -6,13 +6,13 @@
 
 {% block main %}
     <table class="sortable">
-        <tr>
+        <thead>
             <th>College</th>
             <th>Admission Rate</th>
             <th>Average SAT (CR + M)</th>
             <th>Average ACT (Composite)</th>
             <th>Location</th>
-        </tr>
+        </thead>
         {% for college in colleges -%}
         <tr>
             <th>{{ college.name }}</th>
