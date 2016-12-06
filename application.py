@@ -105,7 +105,7 @@ def sign_up():
         session["user_id"] = user_id[0]["id"]
 
         # create table for user's colleges
-        db.execute("CREATE TABLE :username ('name' TEXT,'adrate' NUMERIC, 'SAT_25' INTEGER, 'SAT_75' INTEGER, 'ACT_25' INTEGER, 'ACT_75' INTEGER, 'location' TEXT)", username=username)
+        db.execute("CREATE TABLE :id ('name' TEXT,'adrate' NUMERIC, 'SAT' INTEGER, 'ACT' INTEGER, 'location' TEXT)", id=str(session["user_id"]))
         # redirect user to home page
         return redirect(url_for("index"))
 
@@ -140,21 +140,19 @@ def update():
     if (sw_lng <= ne_lng):
 
         # doesn't cross the antimeridian
-        rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE FROM college_data
+        rows = db.execute("""SELECT INSTNM, CITY, INSTURL, LATITUDE, LONGITUDE, ADM_RATE, SAT_AVG, ACTCMMID FROM college_data
             WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE AND LONGITUDE <= :ne_lng) ORDER BY RANDOM() LIMIT 50""",
             sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
             # GROUP BY country_code, place_name, admin_code1
             # ORDER BY RANDOM()
-            # LIMIT 10
     else:
 
         # crosses the antimeridian
-        rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE FROM college_data
+        rows = db.execute("""SELECT INSTNM, CITY, INSTURL, LATITUDE, LONGITUDE, ADM_RATE, SAT_AVG, ACTCMMID FROM college_data
             WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE OR LONGITUDE <= :ne_lng) ORDER BY RANDOM() LIMIT 50""",
             sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
             # GROUP BY country_code, place_name, admin_code1
             # ORDER BY RANDOM()
-            # LIMIT 10
 
     # output places as JSON
     return jsonify(rows)
@@ -207,9 +205,20 @@ def logout():
     # redirect user to login form
     return redirect(url_for("login"))
     
-@app.route("/mycolleges")
-def mycolleges():
-    """Display table of saved colleges."""
+
+@app.route("/addcolleges")
+def addcolleges():
+    """Add college to table of saved colleges."""
     
+    # get college name
+    INSTNM = request.args.get("INSTNM")
+    
+    # add college details to user's table
+    db.execute("INSERT INTO :user_id ('name', 'location', 'adrate', 'SAT', 'ACT') SELECT INSTNM, CITY, ADM_RATE, SAT_AVG, ACTCMMID FROM college_data WHERE INSTNM=:INSTNM", user_id=str(session["user_id"]), INSTNM=INSTNM)
     
     return render_template("mycolleges.html")
+    
+@app.route("/mycolleges")
+def mycolleges():
+    colleges = db.execute("SELECT * FROM :user_id", user_id=str(session["user_id"]))
+    return render_template("mycolleges.html", colleges=colleges)

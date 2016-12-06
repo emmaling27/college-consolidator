@@ -254,7 +254,7 @@ function showInfo(marker, content, college)
     $(document).ready(function(){
         $(".add").click(function(){
             console.log(college)
-            $.ajax(Flask.url_for("mycolleges"), college)
+            $.ajax({url:Flask.url_for("addcolleges"), data:college})
             .done(function(textStatus, jqXHR) {
         
             // change button
