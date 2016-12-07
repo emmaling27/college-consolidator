@@ -1,4 +1,4 @@
-documentation:
+Documentation:
 
 To set up this web app, first clone the repository found on GitHub: https://github.com/emmaling27/college-consolidator.
 Click on clone, copy the URL, then run "git clone paste_URL_here" in your CS50 IDE terminal. Then change directories into college-consolidator.
