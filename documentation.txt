@@ -4,7 +4,8 @@ To set up this web app, first clone the repository found on GitHub: https://gith
 Click on clone, copy the URL, then run "git clone paste_URL_here" in your CS50 IDE terminal. Then change directories into college-consolidator.
 Make sure you are on the master branch using "git status".  If you are not on master, "git checkout master" in your terminal.
 
-You should have all of the files except the database, pressurecooker.db.  This is shared on Google Drive
+You should have all of the files except the database, pressurecooker.db.  This is shared on Google Drive at https://drive.google.com/a/college.harvard.edu/file/d/0B1hs6M1rLxtIczBIMnpaOWREQ3c/view?usp=sharing
+Make sure you are logged into Google Drive with your Harvard account to access the file.
 Download this file and move it into your college-consolidator directory.
 
 To run the app, make sure you are in the college-consolidator directory and export the API KEY in your terminal with "export API_KEY=AIzaSyABS1s5mEvlbYuMmyRU6ITmXx8A9DfP9MI".
