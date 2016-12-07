@@ -8,6 +8,18 @@ var markers = [];
 // info window
 var info = new google.maps.InfoWindow();
 
+// conditions from filters
+var conditions = {
+    // 'ne': null,
+    // 'q': null,
+    // 'sw': null,
+    'public': null,
+    'private': null,
+    '2yr': null,
+    '4yr': null,
+    'grad': null
+};
+
 // execute when the DOM is fully loaded
 $(function() {
 
@@ -57,23 +69,46 @@ $(function() {
     // configure UI once Google Map is idle (i.e., loaded)
     google.maps.event.addListenerOnce(map, "idle", configure);
     
+    // event handlers for checkbox filters
+    // on click, modify global object conditions to indicate if box checked/unchecked
+    function update_conditions(id) {
+        
+    }
+    // public
     $('#public').click(function(){
-        console.log($('#public').prop('checked'));
         if ($('#public').prop('checked')) {
-            console.log("public checked!")
+            conditions['public'] = 1;
+            update(conditions);
         }
         else {
-            console.log("public unchecked!")
+            conditions['public'] = 0;
+            update(conditions);
         }
-    }) 
+    }); 
+    
+    // private
     $('#private').click(function(){
-        if ($('#public').prop('checked')) {
-            console.log("private checked!")
+        if ($('#private').prop('checked')) {
+            conditions['private'] = 1;
+            update(conditions);
         }
         else {
-            console.log("private unchecked!")
+            conditions['private'] = 0;
+            update(conditions);
         }
-    }) 
+    });
+    
+    $('#2yr').click(function(){
+        if ($('#2yr').prop('checked')) {
+            conditions['private'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['private'] = 0;
+            update(conditions);
+        }
+    });
+    
     
     // // event handler for add college buttons
     // $(".add").click(function(){
@@ -132,13 +167,13 @@ function configure()
         // http://stackoverflow.com/a/12410385
         if (!info.getMap || !info.getMap())
         {
-            update();
+            update(conditions);
         }
     });
 
     // update UI after zoom level changes
     google.maps.event.addListener(map, "zoom_changed", function() {
-        update();
+        update(conditions);
     });
 
     // configure typeahead
@@ -167,7 +202,7 @@ function configure()
         map.setZoom(15);
         
         // update UI
-        update();
+        update(conditions);
     });
 
     // hide info window when text box has focus
@@ -184,7 +219,7 @@ function configure()
     }, true);
 
     // update UI
-    update();
+    update(conditions);
 
     // give focus to text box
     $("#q").focus();
@@ -277,7 +312,7 @@ function showInfo(marker, content, college)
 /**
 * Updates UI's markers.
 */
-function update() 
+function update(conditions) 
 {
     // get map's bounds
     var bounds = map.getBounds();
@@ -285,12 +320,18 @@ function update()
     var sw = bounds.getSouthWest();
 
     // get places within bounds (asynchronously)
-    var parameters = {
-        ne: ne.lat() + "," + ne.lng(),
-        q: $("#q").val(),
-        sw: sw.lat() + "," + sw.lng()
-    };
-    $.getJSON(Flask.url_for("update"), parameters)
+    // var parameters = {
+    //     ne: ne.lat() + "," + ne.lng(),
+    //     q: $("#q").val(),
+    //     sw: sw.lat() + "," + sw.lng(),
+    //     conditions
+    // };
+    conditions['ne'] = ne.lat() + "," + ne.lng();
+    conditions['q'] = $("#q").val();
+    conditions['sw'] = sw.lat() + "," + sw.lng();
+    console.log(conditions)
+
+    $.getJSON(Flask.url_for("update"), conditions)
     .done(function(data, textStatus, jqXHR) {
 
       // remove old markers from map

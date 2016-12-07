@@ -116,7 +116,7 @@ def sign_up():
 
 @app.route("/update")
 def update():
-    """Find up to 10 places within view."""
+    """Find colleges within view."""
 
     # ensure parameters are present
     if not request.args.get("sw"):
@@ -135,29 +135,26 @@ def update():
 
     # explode northeast corner into two variables
     (ne_lat, ne_lng) = [float(s) for s in request.args.get("ne").split(",")]
+    
+    # handle conditions
+    # q_condition = 'AND CONTROl=1'
+    # public = [int(s) for s in request.args.get("public")]
+    # raise RuntimeError(public)
+    q_condition = ''
+    if int(request.args.get("public")) == 1:
+        q_condition = 'AND CONTROL=1'
 
-    # find 10 cities within view, pseudorandomly chosen if more within view
-    if (sw_lng <= ne_lng):
-
-        # doesn't cross the antimeridian
-        rows = db.execute("""SELECT INSTNM, CITY, INSTURL, LATITUDE, LONGITUDE, ADM_RATE, SAT_AVG, ACTCMMID FROM college_data
-            WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE AND LONGITUDE <= :ne_lng) ORDER BY RANDOM() LIMIT 50""",
-            sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
-            # GROUP BY country_code, place_name, admin_code1
-            # ORDER BY RANDOM()
-    else:
-
-        # crosses the antimeridian
-        rows = db.execute("""SELECT INSTNM, CITY, INSTURL, LATITUDE, LONGITUDE, ADM_RATE, SAT_AVG, ACTCMMID FROM college_data
-            WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE OR LONGITUDE <= :ne_lng) ORDER BY RANDOM() LIMIT 50""",
-            sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng)
-            # GROUP BY country_code, place_name, admin_code1
-            # ORDER BY RANDOM()
-
+    # find colleges within view
+    # rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE FROM college_data
+    #         WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE
+    #         AND LONGITUDE <= :ne_lng) :condition ORDER BY ADM_RATE ASC LIMIT 50""",
+    #         sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng, condition=condition)
+    rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE FROM college_data
+            WHERE {} <= LATITUDE AND LATITUDE <= {} AND ({} <= LONGITUDE
+            AND LONGITUDE <= {}) {} ORDER BY ADM_RATE ASC LIMIT 50""".format(sw_lat, ne_lat, sw_lng, ne_lng, q_condition))
+    
     # output places as JSON
     return jsonify(rows)
-
-
 
 
 @app.route("/login", methods=["GET", "POST"])
