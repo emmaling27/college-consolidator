@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Colleges
+{% endblock %}
+
+{% block main %}
+    <table class="sortable">
+        <thead>
+            <th>College</th>
+            <th>Admission Rate</th>
+            <th>Average SAT (CR + M)</th>
+            <th>Average ACT (Composite)</th>
+            <th>Location</th>
+        </thead>
+        {% for college in colleges -%}
+        <tr>
+            <th>{{ college.name }}</th>
+            <th>{{ college.adrate }}</th>
+            <th>{{ college.SAT }}</th>
+            <th>{{ college.ACT }}</th>
+            <th>{{ college.location }}</th>
+        </tr>
+        {%- endfor %}
+    </table>
+{% endblock %}

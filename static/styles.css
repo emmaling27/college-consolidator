@@ -4,6 +4,7 @@
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+
 }
 
 /* colors for navbar */
@@ -48,9 +49,15 @@ main td
 th, td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
 }
 h3 {
-    text-align: left;
+    text-align: center;
 }
 /* stylize typeahead.js a la http://twitter.github.io/typeahead.js/css/examples.css */
 .tt-menu
@@ -74,9 +81,6 @@ h3 {
     padding: 6px 12px;
 }
 
-
-
-
 /* stylize google sign in button */
 .g-signin2 {
     padding-top:10px;
@@ -96,4 +100,13 @@ h3 {
     background-position: 0% 25%;
     background-size: cover;
     background-repeat: no-repeat;
+    margin-top: 30px;
+}
+
+/* Sortable tables */
+.sortable thead {
+    background-color:#eee;
+    color:#666666;
+    font-weight: bold;
+    cursor: default;
 }
