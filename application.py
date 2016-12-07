@@ -44,6 +44,12 @@ def index():
 def get_started():
     
     return render_template("about.html")
+    
+@app.route("/calendar")
+# @login_required
+def calendar():
+    
+    return render_template("calendar.html")
 
 @app.route("/map")
 def map():
