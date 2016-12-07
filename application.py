@@ -201,6 +201,8 @@ def update():
                 q_condition += 'AND (CCSIZSET=3 OR CCSIZSET=4 OR CCSIZSET BETWEEN 12 AND 14) '
         elif large == 1:
             q_condition += 'AND (CCSIZSET=5 OR CCSIZSET BETWEEN 15 AND 17) '
+        if grad == 1:
+            q_condition += 'OR CCSIZSET = 18'
     
     
     # find colleges within view

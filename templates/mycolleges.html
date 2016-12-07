@@ -8,15 +8,15 @@
     <table class="sortable">
         <thead>
             <th>College</th>
-            <th>Admission Rate</th>
+            <th>Admission Rate (%)</th>
             <th>Average SAT (CR + M)</th>
             <th>Average ACT (Composite)</th>
             <th>Location</th>
         </thead>
         {% for college in colleges -%}
         <tr>
-            <th>{{ college.name }}</th>
-            <th>{{ college.adrate }}</th>
+            <th style="text-align: left">{{ college.name }}</th>
+            <th>{{ college.adrate * 100 }}</th>
             <th>{{ college.SAT }}</th>
             <th>{{ college.ACT }}</th>
             <th>{{ college.location }}</th>
