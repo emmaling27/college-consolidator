@@ -113,7 +113,7 @@ def sign_up():
         session["user_id"] = user_id[0]["id"]
 
         # create table for user's colleges
-        db.execute("CREATE TABLE :id ('name' TEXT,'adrate' NUMERIC, 'SAT' INTEGER, 'ACT' INTEGER, 'location' TEXT)", id=str(session["user_id"]))
+        db.execute("CREATE TABLE :id ('name' TEXT,'adrate' NUMERIC, 'SAT' INTEGER, 'ACT' INTEGER, 'location' TEXT, 'url' TEXT)", id=str(session["user_id"]))
         # redirect user to home page
         return redirect(url_for("index"))
 
@@ -210,7 +210,7 @@ def update():
     #         WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE
     #         AND LONGITUDE <= :ne_lng) :condition ORDER BY ADM_RATE ASC LIMIT 50""",
     #         sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng, condition=condition)
-    rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE FROM college_data
+    rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE, ADM_RATE, SAT_AVG, ACTCMMID, UG FROM college_data
             WHERE {} <= LATITUDE AND LATITUDE <= {} AND ({} <= LONGITUDE
             AND LONGITUDE <= {}) {} ORDER BY ADM_RATE ASC LIMIT 50""".format(sw_lat, ne_lat, sw_lng, ne_lng, q_condition))
     
@@ -302,7 +302,7 @@ def addcolleges():
     INSTNM = request.args.get("INSTNM")
     
     # add college details to user's table
-    db.execute("INSERT INTO :user_id ('name', 'location', 'adrate', 'SAT', 'ACT') SELECT INSTNM, CITY, ADM_RATE, SAT_AVG, ACTCMMID FROM college_data WHERE INSTNM=:INSTNM", user_id=str(session["user_id"]), INSTNM=INSTNM)
+    db.execute("INSERT INTO :user_id ('name', 'location', 'adrate', 'SAT', 'ACT', 'url') SELECT INSTNM, CITY, ADM_RATE, SAT_AVG, ACTCMMID, INSTURL FROM college_data WHERE INSTNM=:INSTNM", user_id=str(session["user_id"]), INSTNM=INSTNM)
     
     return render_template("mycolleges.html")
     

@@ -257,7 +257,10 @@ function addMarker(college)
     google.maps.event.addListener(marker, 'click', function() {
 
         // make an html string for each article and link
-        var info = "<div><a href=" + "http://" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>";
+        var info = "<div><a href=" + "http://" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>"
+        if (!isNaN(college["ADM_RATE"])) {
+            info += "<div>Admission Rate: " + Math.round(college["ADM_RATE"] * 100) + "%</div>";
+        }
         console.log(info);
         // var info = "hello, world!"
         // make window display html articles (hyperlinked)

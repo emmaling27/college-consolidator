@@ -15,7 +15,7 @@
         </thead>
         {% for college in colleges -%}
         <tr>
-            <th style="text-align: left">{{ college.name }}</th>
+            <th style="text-align: left"><a href=http://{{college.url}} target="_blank">{{ college.name }}</a></th>
             <th>{{ college.adrate * 100 }}</th>
             <th>{{ college.SAT }}</th>
             <th>{{ college.ACT }}</th>
