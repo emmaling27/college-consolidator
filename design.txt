@@ -22,9 +22,9 @@ This table is sorttable alphabetically and numerically by clicking on the column
 
 Calendar info:
 
-The home page is a simple html page with buttons that link to different college resources.
+The home page is an html page with buttons that link to different college resources.
 
-The about page is another simple html page with our bios.
+The about page is another html page with our bios.
 
 Design:
 
