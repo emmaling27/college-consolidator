@@ -39,9 +39,9 @@ def index():
 
     return render_template("index.html")
 
-@app.route("/get_started")
+@app.route("/about")
 # @login_required
-def get_started():
+def about():
     
     return render_template("about.html")
     
