@@ -316,3 +316,7 @@ def mycolleges():
     colleges = db.execute("SELECT * FROM :user_id", user_id=str(session["user_id"]))
     
     return render_template("mycolleges.html", colleges=colleges)
+
+# @app.route("/static")
+# def static():
+#     return render_template("{}".format(filename), filename=filename)
