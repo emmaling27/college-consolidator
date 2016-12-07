@@ -26,6 +26,9 @@
         <meta name="google-signin-scope" content="profile email">
         <meta name="google-signin-client_id" content="426775631492-nauqognl1pgao9gnd6l3hhn53u4lv516.apps.googleusercontent.com">
         <script src="https://apis.google.com/js/platform.js" async defer></script>
+        
+        <!--http://www.kryogenix.org/code/browser/sorttable/-->
+        <script src="static/sorttable.js"></script>
         {% block head %}{% endblock %}
 
         <title>College Consolidator: {% block title %}{% endblock %}</title>
@@ -50,7 +53,7 @@
                     <div class="collapse navbar-collapse" id="navbar">
                         
                             <ul class="nav navbar-nav">
-                                <li><a href="{{ url_for('get_started') }}">About</a></li>
+                                <li><a href="{{ url_for('about') }}">About</a></li>
                             </ul>
                             <ul class="nav navbar-nav">
                                 <li><a href="{{ url_for('map') }}">Map</a></li>
@@ -58,10 +61,17 @@
                             <ul class="nav navbar-nav">
                                 <li><a href="{{ url_for('calendar') }}">Calendar</a></li>
                             </ul>
+                        {% if session.user_id %}
                             <ul class="nav navbar-nav navbar-right">
-                              <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"><script src="static/gsignin.js"></script>
-                            </div>
+                                <li><a href="{{ url_for('mycolleges') }}">My Colleges</a></li>
+                                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                             </ul>
+                        {% else %}
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{{ url_for('sign_up') }}">Sign Up</a></li>
+                                <li><a href="{{ url_for('logout') }}">Log In</a></li>
+                            </ul>
+                        {% endif %}                            
                     </div>
                 </div>
             </nav>

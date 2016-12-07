@@ -8,6 +8,24 @@ var markers = [];
 // info window
 var info = new google.maps.InfoWindow();
 
+// conditions from filters
+var conditions = {
+    // 'ne': null,
+    // 'q': null,
+    // 'sw': null,
+    'public': 0,
+    'private': 0,
+    '2yr': 0,
+    '4yr': 0,
+    'grad': 0,
+    // 'urban': 0,
+    // 'suburban': 0,
+    // 'rural': 0,
+    'small': 0,
+    'medium': 0,
+    'large': 0
+};
+
 // execute when the DOM is fully loaded
 $(function() {
 
@@ -56,6 +74,159 @@ $(function() {
 
     // configure UI once Google Map is idle (i.e., loaded)
     google.maps.event.addListenerOnce(map, "idle", configure);
+    
+    // event handlers for checkbox filters
+    // on click, modify global object conditions to indicate if box checked/unchecked
+    // function update_conditions(id) {
+    //     // $('#id').click(function(){
+    //         if ($('#id').prop('checked')) {
+    //             conditions['id'] = 1;
+    //             update(conditions);
+    //         }
+    //         else {
+    //             conditions[id] = 0;
+    //             update(conditions);
+    //         }
+    //     // }); 
+    // }
+    // public
+    $('#public').click(function(){
+        if ($('#public').prop('checked')) {
+            conditions['public'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['public'] = 0;
+            update(conditions);
+        }
+    }); 
+
+    // private
+    $('#private').click(function(){
+        if ($('#private').prop('checked')) {
+            conditions['private'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['private'] = 0;
+            update(conditions);
+        }
+    });
+    
+    // 2-year colleges
+    $('#2yr').click(function(){
+        if ($('#2yr').prop('checked')) {
+            conditions['2yr'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['2yr'] = 0;
+            update(conditions);
+        }
+    });
+    
+    // 4-year colleges
+    $('#4yr').click(function(){
+        if ($('#4yr').prop('checked')) {
+            conditions['4yr'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['4yr'] = 0;
+            update(conditions);
+        }
+    });
+    
+    // grad schools
+    $('#grad').click(function(){
+        if ($('#grad').prop('checked')) {
+            conditions['grad'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['grad'] = 0;
+            update(conditions);
+        }
+    });
+    
+    
+    // // urban schools
+    // $('#urban').click(function(){
+    //     if ($('#urban').prop('checked')) {
+    //         conditions['urban'] = 1;
+    //         update(conditions);
+    //     }
+    //     else {
+    //         conditions['urban'] = 0;
+    //         update(conditions);
+    //     }
+    // });
+
+    // // suburban schools
+    // $('#suburban').click(function(){
+    //     if ($('#suburban').prop('checked')) {
+    //         conditions['suburban'] = 1;
+    //         update(conditions);
+    //     }
+    //     else {
+    //         conditions['suburban'] = 0;
+    //         update(conditions);
+    //     }
+    // });
+
+
+    // // rural schools
+    // $('#rural').click(function(){
+    //     if ($('#rural').prop('checked')) {
+    //         conditions['rural'] = 1;
+    //         update(conditions);
+    //     }
+    //     else {
+    //         conditions['rural'] = 0;
+    //         update(conditions);
+    //     }
+    // });
+
+    // small schools
+    $('#small').click(function(){
+        if ($('#small').prop('checked')) {
+            conditions['small'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['small'] = 0;
+            update(conditions);
+        }
+    });
+    
+    // medium schools
+    $('#medium').click(function(){
+        if ($('#medium').prop('checked')) {
+            conditions['medium'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['medium'] = 0;
+            update(conditions);
+        }
+    });
+
+    // large schools
+    $('#large').click(function(){
+        if ($('#large').prop('checked')) {
+            conditions['large'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['large'] = 0;
+            update(conditions);
+        }
+    });
+    
+    // // event handler for add college buttons
+    // $(".add").click(function(){
+    
+    // })
 
 });
 
@@ -86,11 +257,14 @@ function addMarker(college)
     google.maps.event.addListener(marker, 'click', function() {
 
         // make an html string for each article and link
-        var info = "<div><a href=" + "http://" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>";
+        var info = "<div><a href=" + "http://" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>"
+        if (!isNaN(college["ADM_RATE"])) {
+            info += "<div>Admission Rate: " + Math.round(college["ADM_RATE"] * 100) + "%</div>";
+        }
         console.log(info);
         // var info = "hello, world!"
         // make window display html articles (hyperlinked)
-        showInfo(marker, info);
+        showInfo(marker, info, college);
     });
 
     // render map with markers
@@ -109,13 +283,13 @@ function configure()
         // http://stackoverflow.com/a/12410385
         if (!info.getMap || !info.getMap())
         {
-            update();
+            update(conditions);
         }
     });
 
     // update UI after zoom level changes
     google.maps.event.addListener(map, "zoom_changed", function() {
-        update();
+        update(conditions);
     });
 
     // configure typeahead
@@ -144,7 +318,7 @@ function configure()
         map.setZoom(15);
         
         // update UI
-        update();
+        update(conditions);
     });
 
     // hide info window when text box has focus
@@ -161,7 +335,7 @@ function configure()
     }, true);
 
     // update UI
-    update();
+    update(conditions);
 
     // give focus to text box
     $("#q").focus();
@@ -209,7 +383,7 @@ function search(query, syncResults, asyncResults)
 /**
 * Shows info window at marker with content.
 */
-function showInfo(marker, content)
+function showInfo(marker, content, college)
 {
     // start div
     var div = "<div id='info'>";
@@ -225,7 +399,25 @@ function showInfo(marker, content)
 
     // end div
     div += "</div>";
-
+    
+    // make add to my colleges button
+    div += "<button type='button' class='add'> + Add to my colleges</button>"
+    $(document).ready(function(){
+        $(".add").click(function(){
+            console.log(college)
+            $.ajax({url:Flask.url_for("addcolleges"), data:college})
+            .done(function(textStatus, jqXHR) {
+        
+            // change button
+            console.log("success!!")
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+        
+                // log error to browser's console
+                console.log(errorThrown.toString());
+            });
+        });
+    });
     // set info window's content
     info.setContent(div);
 
@@ -236,7 +428,7 @@ function showInfo(marker, content)
 /**
 * Updates UI's markers.
 */
-function update() 
+function update(conditions) 
 {
     // get map's bounds
     var bounds = map.getBounds();
@@ -244,12 +436,18 @@ function update()
     var sw = bounds.getSouthWest();
 
     // get places within bounds (asynchronously)
-    var parameters = {
-        ne: ne.lat() + "," + ne.lng(),
-        q: $("#q").val(),
-        sw: sw.lat() + "," + sw.lng()
-    };
-    $.getJSON(Flask.url_for("update"), parameters)
+    // var parameters = {
+    //     ne: ne.lat() + "," + ne.lng(),
+    //     q: $("#q").val(),
+    //     sw: sw.lat() + "," + sw.lng(),
+    //     conditions
+    // };
+    conditions['ne'] = ne.lat() + "," + ne.lng();
+    conditions['q'] = $("#q").val();
+    conditions['sw'] = sw.lat() + "," + sw.lng();
+    console.log(conditions)
+
+    $.getJSON(Flask.url_for("update"), conditions)
     .done(function(data, textStatus, jqXHR) {
 
       // remove old markers from map
