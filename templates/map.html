@@ -4,23 +4,13 @@
 {% block title %} Map {% endblock %}
 
 {% block head %}
-
-    <!-- https://developers.google.com/maps/documentation/javascript/ -->
-    <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
     
     <script src="https://maps.googleapis.com/maps/api/js?key={{ key | urlencode }}&v=3.exp"></script>
-    <!--<script async defer 
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABS1s5mEvlbYuMmyRU6ITmXx8A9DfP9MI&callback=initMap">
-     </script>-->
 
      <!-- app's own JavaScript -->
     <script src="{{ url_for('static', filename='map_scripts.js') }}"></script>
     <style>
-      #map-canvas {
-        height: 500px;
-        width: 100%;
-        padding-top: 10px;
-       }
+
     </style>
   {% endblock %}
   {% block main %}

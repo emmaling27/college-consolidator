@@ -33,7 +33,7 @@ $(function() {
     // https://developers.google.com/maps/documentation/javascript/styling
     var styles = [
 
-        // hide Google's labels
+        // show Google's labels
         {
             featureType: "all",
             elementType: "labels",
@@ -42,7 +42,7 @@ $(function() {
             ]
         },
 
-        // hide roads
+        // show roads
         {
             featureType: "road",
             elementType: "geometry",
@@ -89,6 +89,7 @@ $(function() {
     //         }
     //     // }); 
     // }
+    
     // public
     $('#public').click(function(){
         if ($('#public').prop('checked')) {
@@ -241,29 +242,23 @@ function addMarker(college)
     // make markers
     var marker = new google.maps.Marker({
         position: myLatlng,
-        // label: college["INSTNM"]
     });
     
     // add markers to list markers
     markers.push(marker);
-    
-    // var info = "<div><a href=" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>";
-    
-    // marker.addListener("click", function(){
-    //     showInfo(marker, info)
-    //     console.log("hello world")
-    // });
+
     // listen for click event
     google.maps.event.addListener(marker, 'click', function() {
 
-        // make an html string for each article and link
+        // make an html string for each college with link
         var info = "<div><a href=" + "http://" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>"
+        
+        // add admission rate if institution has one
         if (!isNaN(college["ADM_RATE"])) {
             info += "<div>Admission Rate: " + Math.round(college["ADM_RATE"] * 100) + "%</div>";
         }
-        console.log(info);
-        // var info = "hello, world!"
-        // make window display html articles (hyperlinked)
+
+        // make window display college and admission rate
         showInfo(marker, info, college);
     });
 
@@ -407,9 +402,7 @@ function showInfo(marker, content, college)
             console.log(college)
             $.ajax({url:Flask.url_for("addcolleges"), data:college})
             .done(function(textStatus, jqXHR) {
-        
-            // change button
-            console.log("success!!")
+               console.log("success!!")
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
         
@@ -418,6 +411,7 @@ function showInfo(marker, content, college)
             });
         });
     });
+    
     // set info window's content
     info.setContent(div);
 
@@ -435,18 +429,12 @@ function update(conditions)
     var ne = bounds.getNorthEast();
     var sw = bounds.getSouthWest();
 
-    // get places within bounds (asynchronously)
-    // var parameters = {
-    //     ne: ne.lat() + "," + ne.lng(),
-    //     q: $("#q").val(),
-    //     sw: sw.lat() + "," + sw.lng(),
-    //     conditions
-    // };
+    // update conditions
     conditions['ne'] = ne.lat() + "," + ne.lng();
     conditions['q'] = $("#q").val();
     conditions['sw'] = sw.lat() + "," + sw.lng();
-    console.log(conditions)
 
+    // send updated conditions to application.py update function
     $.getJSON(Flask.url_for("update"), conditions)
     .done(function(data, textStatus, jqXHR) {
 

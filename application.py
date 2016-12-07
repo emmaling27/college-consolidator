@@ -34,19 +34,16 @@ Session(app)
 db = SQL("sqlite:///pressurecooker.db")
 
 @app.route("/")
-# @login_required
 def index():
 
     return render_template("index.html")
 
 @app.route("/about")
-# @login_required
 def about():
     
     return render_template("about.html")
     
 @app.route("/calendar")
-# @login_required
 def calendar():
     
     return render_template("calendar.html")
@@ -61,7 +58,11 @@ def map():
 @app.route("/search")
 def search():
     """Search for places that match query."""
-
+    
+    # ensure query present
+    if not request.args.get("q"):
+        raise RuntimeError("missing q")
+        
     # get search parameter
     q = request.args.get("q") + "%"
     
@@ -114,6 +115,7 @@ def sign_up():
 
         # create table for user's colleges
         db.execute("CREATE TABLE :id ('name' TEXT,'adrate' NUMERIC, 'SAT' INTEGER, 'ACT' INTEGER, 'location' TEXT, 'url' TEXT)", id=str(session["user_id"]))
+        
         # redirect user to home page
         return redirect(url_for("index"))
 
@@ -205,11 +207,8 @@ def update():
             q_condition += 'OR CCSIZSET = 18'
     
     
-    # find colleges within view
-    # rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE FROM college_data
-    #         WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE
-    #         AND LONGITUDE <= :ne_lng) :condition ORDER BY ADM_RATE ASC LIMIT 50""",
-    #         sw_lat=sw_lat, ne_lat=ne_lat, sw_lng=sw_lng, ne_lng=ne_lng, condition=condition)
+    # find colleges within view satisfying conditions
+
     rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE, ADM_RATE, SAT_AVG, ACTCMMID, UG FROM college_data
             WHERE {} <= LATITUDE AND LATITUDE <= {} AND ({} <= LONGITUDE
             AND LONGITUDE <= {}) {} ORDER BY ADM_RATE ASC LIMIT 50""".format(sw_lat, ne_lat, sw_lng, ne_lng, q_condition))
@@ -298,6 +297,10 @@ def logout():
 def addcolleges():
     """Add college to table of saved colleges."""
     
+    # ensure college selected
+    if not request.args.get("INSTNM"):
+        raise RuntimeError("missing college name")
+
     # get college name
     INSTNM = request.args.get("INSTNM")
     
@@ -308,5 +311,8 @@ def addcolleges():
     
 @app.route("/mycolleges")
 def mycolleges():
+    
+    # get colleges from user's table
     colleges = db.execute("SELECT * FROM :user_id", user_id=str(session["user_id"]))
+    
     return render_template("mycolleges.html", colleges=colleges)

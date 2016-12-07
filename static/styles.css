@@ -85,8 +85,10 @@ h3 {
 .g-signin2 {
     padding-top:10px;
 }
+
+/* stylize buttons */
 .btn  {
-    margin-top: 15px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
@@ -109,4 +111,10 @@ h3 {
     color:#666666;
     font-weight: bold;
     cursor: default;
+}
+
+#map-canvas {
+    height: 500px;
+    width: 100%;
+    padding-top: 10px;
 }
