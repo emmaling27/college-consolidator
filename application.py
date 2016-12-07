@@ -216,12 +216,7 @@ def update():
     return jsonify(rows)
 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    """Log user in."""
 
-    # forget any user_id
-    session.clear()
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
