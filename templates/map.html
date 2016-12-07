@@ -19,13 +19,12 @@
       #map-canvas {
         height: 500px;
         width: 100%;
+        padding-top: 10px;
        }
     </style>
   {% endblock %}
   {% block main %}
-    <h3>Where will you be?
-
-    </h3>
+    <h3>Where will you be?</h3>
       <form id="form">
         <div class="form-group">
           <label class="sr-only" for="q">City, State, Postal Code</label>
@@ -39,9 +38,18 @@
     <div>
       <label class="checkbox-inline" ><input type="checkbox" id="2yr" value="">2-year</label>
       <label class="checkbox-inline" ><input type="checkbox" id="4yr" value="">4-year</label>
-      <label class="checkbox-inline" ><input type="checkbox" id="grad" value="">grad school</label>
+      <label class="checkbox-inline" ><input type="checkbox" id="grad" value="">Graduate school</label>
     </div>
-    
+<!--    <div>
+      <label class="checkbox-inline" ><input type="checkbox" id="urban" value="">Urban</label>
+      <label class="checkbox-inline" ><input type="checkbox" id="suburban" value="">Suburban</label>
+      <label class="checkbox-inline" ><input type="checkbox" id="rural" value="">Rural</label>
+    </div> -->
+    <div>
+      <label class="checkbox-inline" ><input type="checkbox" id="small" value="">Small</label>
+      <label class="checkbox-inline" ><input type="checkbox" id="medium" value="">Medium</label>
+      <label class="checkbox-inline" ><input type="checkbox" id="large" value="">Large</label>
+    </div>
     <div id="map-canvas"></div>
 
 

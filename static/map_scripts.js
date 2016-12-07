@@ -13,11 +13,17 @@ var conditions = {
     // 'ne': null,
     // 'q': null,
     // 'sw': null,
-    'public': null,
-    'private': null,
-    '2yr': null,
-    '4yr': null,
-    'grad': null
+    'public': 0,
+    'private': 0,
+    '2yr': 0,
+    '4yr': 0,
+    'grad': 0,
+    // 'urban': 0,
+    // 'suburban': 0,
+    // 'rural': 0,
+    'small': 0,
+    'medium': 0,
+    'large': 0
 };
 
 // execute when the DOM is fully loaded
@@ -71,9 +77,18 @@ $(function() {
     
     // event handlers for checkbox filters
     // on click, modify global object conditions to indicate if box checked/unchecked
-    function update_conditions(id) {
-        
-    }
+    // function update_conditions(id) {
+    //     // $('#id').click(function(){
+    //         if ($('#id').prop('checked')) {
+    //             conditions['id'] = 1;
+    //             update(conditions);
+    //         }
+    //         else {
+    //             conditions[id] = 0;
+    //             update(conditions);
+    //         }
+    //     // }); 
+    // }
     // public
     $('#public').click(function(){
         if ($('#public').prop('checked')) {
@@ -85,7 +100,7 @@ $(function() {
             update(conditions);
         }
     }); 
-    
+
     // private
     $('#private').click(function(){
         if ($('#private').prop('checked')) {
@@ -98,17 +113,115 @@ $(function() {
         }
     });
     
+    // 2-year colleges
     $('#2yr').click(function(){
         if ($('#2yr').prop('checked')) {
-            conditions['private'] = 1;
+            conditions['2yr'] = 1;
             update(conditions);
         }
         else {
-            conditions['private'] = 0;
+            conditions['2yr'] = 0;
             update(conditions);
         }
     });
     
+    // 4-year colleges
+    $('#4yr').click(function(){
+        if ($('#4yr').prop('checked')) {
+            conditions['4yr'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['4yr'] = 0;
+            update(conditions);
+        }
+    });
+    
+    // grad schools
+    $('#grad').click(function(){
+        if ($('#grad').prop('checked')) {
+            conditions['grad'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['grad'] = 0;
+            update(conditions);
+        }
+    });
+    
+    
+    // // urban schools
+    // $('#urban').click(function(){
+    //     if ($('#urban').prop('checked')) {
+    //         conditions['urban'] = 1;
+    //         update(conditions);
+    //     }
+    //     else {
+    //         conditions['urban'] = 0;
+    //         update(conditions);
+    //     }
+    // });
+
+    // // suburban schools
+    // $('#suburban').click(function(){
+    //     if ($('#suburban').prop('checked')) {
+    //         conditions['suburban'] = 1;
+    //         update(conditions);
+    //     }
+    //     else {
+    //         conditions['suburban'] = 0;
+    //         update(conditions);
+    //     }
+    // });
+
+
+    // // rural schools
+    // $('#rural').click(function(){
+    //     if ($('#rural').prop('checked')) {
+    //         conditions['rural'] = 1;
+    //         update(conditions);
+    //     }
+    //     else {
+    //         conditions['rural'] = 0;
+    //         update(conditions);
+    //     }
+    // });
+
+    // small schools
+    $('#small').click(function(){
+        if ($('#small').prop('checked')) {
+            conditions['small'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['small'] = 0;
+            update(conditions);
+        }
+    });
+    
+    // medium schools
+    $('#medium').click(function(){
+        if ($('#medium').prop('checked')) {
+            conditions['medium'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['medium'] = 0;
+            update(conditions);
+        }
+    });
+
+    // large schools
+    $('#large').click(function(){
+        if ($('#large').prop('checked')) {
+            conditions['large'] = 1;
+            update(conditions);
+        }
+        else {
+            conditions['large'] = 0;
+            update(conditions);
+        }
+    });
     
     // // event handler for add college buttons
     // $(".add").click(function(){

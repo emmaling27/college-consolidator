@@ -46,6 +46,7 @@ def get_started():
     return apology("todo")
 
 @app.route("/map")
+@login_required
 def map():
     if not os.environ.get("API_KEY"):
         raise RuntimeError("API_KEY not set")
@@ -136,14 +137,65 @@ def update():
     # explode northeast corner into two variables
     (ne_lat, ne_lng) = [float(s) for s in request.args.get("ne").split(",")]
     
-    # handle conditions
-    # q_condition = 'AND CONTROl=1'
-    # public = [int(s) for s in request.args.get("public")]
-    # raise RuntimeError(public)
+    # make conditions string to use in SQL query
     q_condition = ''
-    if int(request.args.get("public")) == 1:
-        q_condition = 'AND CONTROL=1'
+    
+    # get conditions
+    public = int(request.args.get("public"))
+    private = int(request.args.get("private"))
+    twoyr = int(request.args.get("2yr"))
+    fouryr = int(request.args.get("4yr"))
+    grad = int(request.args.get("grad"))
+    # urban = int(request.args.get("urban"))
+    # suburban = int(request.args.get("suburban"))
+    # rural = int(request.args.get("rural"))
+    small = int(request.args.get("small"))
+    medium = int(request.args.get("medium"))
+    large = int(request.args.get("large"))
 
+    # handle control of school (public vs private)
+    if public == 0 or private == 0:
+        if public == 1:
+            q_condition += 'AND CONTROL=1 '
+    
+        elif private == 1:
+            q_condition += 'AND (CONTROL=2 OR CONTROL=3) '
+        
+    # handle type of degrees primarily earned
+    if twoyr == 0 or fouryr == 0 or grad == 0:
+        if twoyr == 1:
+            if fouryr == 1:
+                q_condition += 'AND (PREDDEG=2 OR PREDDEG=3) '
+            elif grad == 1:
+                q_condition += 'AND (PREDDEG=2 OR PREDDEG=4) '
+            else:
+                q_condition += 'AND PREDDEG=2 '
+        elif fouryr == 1:
+            if grad == 1:
+                q_condition += 'AND (PREDDEG=3 OR PREDDEG=4) '
+            else:
+                q_condition += 'AND PREDDEG=3 '
+        elif grad == 1:
+            q_condition += 'AND PREDDEG=4 '
+
+    # handle size of school
+    if small == 0 or medium == 0 or large == 0:
+        if small == 1:
+            if medium == 1:
+                q_condition += 'AND CCSIZSET BETWEEN 1 AND 14 AND CCSIZSET != 5 '
+            elif large == 1:
+                q_condition += 'AND (CCSIZSET <= 2 OR (CCSIZSET >= 5 AND CCSIZSET <=12) OR (CCSIZSET BETWEEN 15 AND 17)) '
+            else:
+                q_condition += 'AND ((CCSIZSET BETWEEN 6 AND 11) OR CCSIZSET=1 OR CCSIZSET=2) '
+        elif medium == 1:
+            if large == 1:
+                q_condition += 'AND ((CCSIZSET BETWEEN 3 AND 5) OR (CCSIZSET BETWEEN 12 AND 17)) '
+            else:
+                q_condition += 'AND (CCSIZSET=3 OR CCSIZSET=4 OR CCSIZSET BETWEEN 12 AND 14) '
+        elif large == 1:
+            q_condition += 'AND (CCSIZSET=5 OR CCSIZSET BETWEEN 15 AND 17) '
+    
+    
     # find colleges within view
     # rows = db.execute("""SELECT INSTNM, INSTURL, LATITUDE, LONGITUDE FROM college_data
     #         WHERE :sw_lat <= LATITUDE AND LATITUDE <= :ne_lat AND (:sw_lng <= LONGITUDE
