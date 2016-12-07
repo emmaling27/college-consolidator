@@ -1,0 +1,15 @@
+documentation:
+
+To set up this web app, first clone the repository found on GitHub: https://github.com/emmaling27/college-consolidator.
+Click on clone, copy the URL, then run "git clone paste_URL_here" in your CS50 IDE terminal. Then change directories into college-consolidator.
+Make sure you are on the master branch using "git status".  If you are not on master, "git checkout master" in your terminal.
+
+You should have all of the files except the database, pressurecooker.db.  This is shared on Google Drive
+Download this file and move it into your college-consolidator directory.
+
+To run the app, make sure you are in the college-consolidator directory and export the API KEY in your terminal with "export API_KEY=AIzaSyABS1s5mEvlbYuMmyRU6ITmXx8A9DfP9MI".
+Now enter "flask run" and click on CS50 IDE then Web Server to access the site.  In another terminal window, run "phpliteadmin pressurecooker.db".
+Then click on the link displayed to access the database.
+
+Once you're on the site, first sign up by clicking "Sign Up" on the navigation bar. Then you will have access to all of the features
+once you log in.  
