@@ -291,16 +291,6 @@ def logout():
     else:
         return render_template("login.html")
 
-@app.route("/logout")
-def logout():
-    """Log user out."""
-
-    # forget any user_id
-    session.clear()
-
-    # redirect user to login form
-    return redirect(url_for("login"))
-    
 
 @app.route("/addcolleges")
 def addcolleges():
