@@ -21,13 +21,25 @@ showInfo is called in addMarker and displays this html string, along with an add
 function in application.py, where it inserts the college into a table created upon sign up for the user. This table is queried and displayed in mycolleges.html.
 This table is sorttable alphabetically and numerically by clicking on the column headers (this feature was taken from online, see sorttable.js for details).
 
-Calendar info:
+The calendar portion of the website was implemented using google calendar. I created a simple html page with a title and then implemented the calendar. I set up 
+a gmail account and then created a calendar where I inputed different events for different deadlines. I then customized my calendar to make it as simple as possible. 
+I made the calendar public so that it could be accessed by anyone. Google then provied me with a line of code that I copied into my html and integrated into my website. 
+Google calendar was the best choice for this website because it is extremely user friendly and many people are already familiar with how it works. 
 
-The home page is an html page with buttons that link to different college resources.
+The home page was created using a theme in bootswatch (as is further discussed below under design). The goal was to keep the home page simple in an effort
+to make it user-friendly. The home page consists of various buttons to college resources that when clicked on take you directly to the page. The simplicity of the page
+makes it easy to use and easy to understand. 
 
-The about page is another html page with our bios.
+For the about page I used a simple html format. The title of the website is provided along with a small slogan below. The slogan summarizes the intent of the website and what
+our goal is in creating the website. I kept formatting simple to ensure that the user did not have to spend a large amount of time understanding who we are and what our 
+intent was in creating the website. 
 
 Design:
+The aesthetic of the website is due in part to one of the bootswatch themes "Journal." Using the framework provided by the link found in layout.hmtl I was able to create a 
+user-friendly and clean webpage. I built off of the framework and included some of my own style choices such as the photo in the background of the title screen. I chose
+to use large buttons with the name of the websites on the home page in order to make it easily accesible. I also included a button with a link to the map feature
+as a central part of the home page because the map feature is an important part of our website. The goal in choosing design was to keep the aesthetic simple and keep
+the focus on the resources and not an elaborate web page. My design accomplished this goal. 
 
 In the code, there are lots of commented out portions and files for unfinished features like Google SignIn.  I left the code there in case I decide to put the website
 online and add these features back in (I wouldn't want the hours I spent on them to go to waste).  As with any project, there is always more to do, so many comments
