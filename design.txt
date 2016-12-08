@@ -1,4 +1,3 @@
-
 Design:
 
 I took the infrastructure from pset7 with the login/logout and register features.  Then I modeled our map off of pset8, so I used a lot of the scripts.js file
