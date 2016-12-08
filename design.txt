@@ -44,4 +44,3 @@ the focus on the resources and not an elaborate web page. My design accomplished
 In the code, there are lots of commented out portions and files for unfinished features like Google SignIn.  I left the code there in case I decide to put the website
 online and add these features back in (I wouldn't want the hours I spent on them to go to waste).  As with any project, there is always more to do, so many comments
 you'll see as you read through the code are also reminders of ideas for other features that could be included there.
-
