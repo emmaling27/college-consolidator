@@ -322,7 +322,3 @@ def mycolleges():
                     college[attribute] = "--"
     
     return render_template("mycolleges.html", colleges=colleges)
-
-# @app.route("/static")
-# def static():
-#     return render_template("{}".format(filename), filename=filename)

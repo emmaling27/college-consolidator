@@ -251,7 +251,7 @@ function addMarker(college)
     google.maps.event.addListener(marker, 'click', function() {
 
         // make an html string for each college with link
-        var info = "<div><a href=" + "http://" + college["INSTURL"] + ">" +college["INSTNM"]+ "</a></div>"
+        var info = "<div><a href=" + "http://" + college["INSTURL"] + " target='_blank'>" +college["INSTNM"]+ "</a></div>"
         
         // add admission rate if institution has one
         if (!isNaN(college["ADM_RATE"])) {
