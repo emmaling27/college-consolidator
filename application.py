@@ -317,6 +317,9 @@ def mycolleges():
     for college in colleges:
         if college["adrate"] != "NULL":
             college["adrate"] = round(float(college["adrate"] *100), 1)
+            for attribute in college:
+                if college[attribute] == "NULL":
+                    college[attribute] = "--"
     
     return render_template("mycolleges.html", colleges=colleges)
 
