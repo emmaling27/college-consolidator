@@ -314,6 +314,9 @@ def mycolleges():
     
     # get colleges from user's table
     colleges = db.execute("SELECT * FROM :user_id", user_id=str(session["user_id"]))
+    for college in colleges:
+        if college["adrate"] != "NULL":
+            college["adrate"] = round(float(college["adrate"] *100), 1)
     
     return render_template("mycolleges.html", colleges=colleges)
 
